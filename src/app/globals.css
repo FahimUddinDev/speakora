@@ -1,26 +1,416 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ============================================================
+   SPEAKORA DESIGN SYSTEM
+   Premium dark UI with purple/teal accent palette
+   ============================================================ */
+
+@theme {
+  /* Colors */
+  --color-bg-primary: #0D0F14;
+  --color-bg-secondary: #161920;
+  --color-bg-tertiary: #1E2130;
+  --color-surface: #1A1D27;
+  --color-surface-hover: #222536;
+  --color-border: #2A2E42;
+  --color-border-subtle: #1F2235;
+
+  /* Brand */
+  --color-purple: #6C63FF;
+  --color-purple-light: #8B84FF;
+  --color-purple-dark: #4F48CC;
+  --color-purple-glow: rgba(108, 99, 255, 0.3);
+
+  --color-teal: #00D4AA;
+  --color-teal-light: #33DDBB;
+  --color-teal-dark: #00A885;
+  --color-teal-glow: rgba(0, 212, 170, 0.2);
+
+  --color-coral: #FF6B6B;
+  --color-coral-light: #FF8F8F;
+  --color-coral-glow: rgba(255, 107, 107, 0.2);
+
+  --color-amber: #FFC107;
+  --color-amber-glow: rgba(255, 193, 7, 0.2);
+
+  /* Text */
+  --color-text-primary: #E8EAED;
+  --color-text-secondary: #9AA0A6;
+  --color-text-tertiary: #5F6368;
+  --color-text-link: #8B84FF;
+
+  /* Fonts */
+  --font-sans: 'Inter', 'system-ui', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* Radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-glow-purple: 0 0 20px rgba(108, 99, 255, 0.4);
+  --shadow-glow-teal: 0 0 20px rgba(0, 212, 170, 0.3);
+  --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.4);
+  --shadow-elevated: 0 8px 40px rgba(0, 0, 0, 0.6);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* ============================================================
+   GLOBAL RESETS & BASE
+   ============================================================ */
+*, *::before, *::after {
+  box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ============================================================
+   SCROLLBAR STYLING
+   ============================================================ */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: var(--color-bg-secondary); }
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: var(--radius-full);
+}
+::-webkit-scrollbar-thumb:hover { background: var(--color-purple); }
+
+/* ============================================================
+   TYPOGRAPHY
+   ============================================================ */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--color-text-primary);
+}
+
+p { line-height: 1.6; color: var(--color-text-secondary); }
+a { color: var(--color-text-link); text-decoration: none; transition: color 0.2s; }
+a:hover { color: var(--color-purple-light); }
+
+/* ============================================================
+   GLASS MORPHISM
+   ============================================================ */
+.glass {
+  background: rgba(26, 29, 39, 0.8);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--color-border);
+}
+
+.glass-subtle {
+  background: rgba(22, 25, 32, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--color-border-subtle);
+}
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  border: none;
+  outline: none;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--color-purple), var(--color-purple-dark));
+  color: white;
+  box-shadow: 0 4px 14px var(--color-purple-glow);
+}
+.btn-primary:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px var(--color-purple-glow);
+}
+.btn-primary:active:not(:disabled) { transform: translateY(0); }
+
+.btn-secondary {
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border);
+}
+.btn-secondary:hover:not(:disabled) {
+  background: var(--color-surface-hover);
+  border-color: var(--color-purple);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--color-text-secondary);
+}
+.btn-ghost:hover:not(:disabled) {
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+}
+
+.btn-danger {
+  background: linear-gradient(135deg, var(--color-coral), #e05555);
+  color: white;
+  box-shadow: 0 4px 14px var(--color-coral-glow);
+}
+
+.btn-teal {
+  background: linear-gradient(135deg, var(--color-teal), var(--color-teal-dark));
+  color: #0a0a0a;
+  font-weight: 700;
+  box-shadow: 0 4px 14px var(--color-teal-glow);
+}
+.btn-teal:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px var(--color-teal-glow);
+}
+
+.btn-sm { padding: 6px 14px; font-size: 13px; }
+.btn-lg { padding: 14px 28px; font-size: 16px; border-radius: var(--radius-lg); }
+.btn-icon {
+  padding: 10px;
+  border-radius: var(--radius-md);
+  aspect-ratio: 1;
+}
+
+/* ============================================================
+   INPUTS
+   ============================================================ */
+.input {
+  width: 100%;
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
+  color: var(--color-text-primary);
+  font-size: 14px;
+  font-family: var(--font-sans);
+  transition: all 0.2s;
+  outline: none;
+}
+.input::placeholder { color: var(--color-text-tertiary); }
+.input:focus {
+  border-color: var(--color-purple);
+  box-shadow: 0 0 0 3px var(--color-purple-glow);
+}
+
+/* ============================================================
+   CARDS
+   ============================================================ */
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+}
+
+.card-hover {
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+.card-hover:hover {
+  border-color: var(--color-purple);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-card);
+}
+
+/* ============================================================
+   BADGES
+   ============================================================ */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.badge-purple {
+  background: var(--color-purple-glow);
+  color: var(--color-purple-light);
+  border: 1px solid rgba(108, 99, 255, 0.3);
+}
+.badge-teal {
+  background: var(--color-teal-glow);
+  color: var(--color-teal);
+  border: 1px solid rgba(0, 212, 170, 0.3);
+}
+.badge-coral {
+  background: var(--color-coral-glow);
+  color: var(--color-coral-light);
+  border: 1px solid rgba(255, 107, 107, 0.3);
+}
+.badge-amber {
+  background: var(--color-amber-glow);
+  color: var(--color-amber);
+  border: 1px solid rgba(255, 193, 7, 0.3);
+}
+
+/* ============================================================
+   ANIMATIONS
+   ============================================================ */
+@keyframes pulse-ring {
+  0% { transform: scale(0.9); opacity: 1; }
+  70% { transform: scale(1.3); opacity: 0; }
+  100% { transform: scale(1.3); opacity: 0; }
+}
+
+@keyframes bounce-dots {
+  0%, 80%, 100% { transform: translateY(0); opacity: 0.4; }
+  40% { transform: translateY(-6px); opacity: 1; }
+}
+
+@keyframes waveform {
+  0%, 100% { transform: scaleY(0.3); }
+  50% { transform: scaleY(1); }
+}
+
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slide-in-right {
+  from { opacity: 0; transform: translateX(16px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slide-in-left {
+  from { opacity: 0; transform: translateX(-16px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 12px var(--color-purple-glow); }
+  50% { box-shadow: 0 0 28px var(--color-purple-glow), 0 0 48px rgba(108,99,255,0.15); }
+}
+
+.animate-fade-in-up { animation: fade-in-up 0.35s ease both; }
+.animate-slide-in-right { animation: slide-in-right 0.3s ease both; }
+.animate-slide-in-left { animation: slide-in-left 0.3s ease both; }
+.animate-glow-pulse { animation: glow-pulse 2s ease-in-out infinite; }
+
+/* Typing indicator dots */
+.typing-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--color-purple-light);
+  animation: bounce-dots 1.4s ease-in-out infinite;
+}
+.typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+/* Waveform bars */
+.waveform-bar {
+  width: 3px;
+  border-radius: 2px;
+  background: currentColor;
+  animation: waveform 0.8s ease-in-out infinite;
+}
+.waveform-bar:nth-child(2) { animation-delay: 0.1s; }
+.waveform-bar:nth-child(3) { animation-delay: 0.2s; }
+.waveform-bar:nth-child(4) { animation-delay: 0.3s; }
+.waveform-bar:nth-child(5) { animation-delay: 0.4s; }
+.waveform-bar:nth-child(6) { animation-delay: 0.3s; }
+.waveform-bar:nth-child(7) { animation-delay: 0.2s; }
+.waveform-bar:nth-child(8) { animation-delay: 0.1s; }
+
+/* ============================================================
+   GRADIENT TEXT
+   ============================================================ */
+.gradient-text {
+  background: linear-gradient(135deg, var(--color-purple-light), var(--color-teal));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text-animated {
+  background: linear-gradient(270deg, var(--color-purple-light), var(--color-teal), var(--color-purple-light));
+  background-size: 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradient-shift 4s ease infinite;
+}
+
+/* ============================================================
+   CHAT MESSAGES
+   ============================================================ */
+.message-user {
+  background: linear-gradient(135deg, var(--color-purple-dark), var(--color-purple));
+  color: white;
+  border-radius: 18px 18px 4px 18px;
+  animation: slide-in-right 0.25s ease both;
+}
+
+.message-ai {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-primary);
+  border-radius: 18px 18px 18px 4px;
+  animation: slide-in-left 0.25s ease both;
+}
+
+/* ============================================================
+   CORRECTION HIGHLIGHT
+   ============================================================ */
+.correction-error {
+  background: rgba(255, 107, 107, 0.12);
+  border-bottom: 2px solid var(--color-coral);
+  border-radius: 2px;
+  padding: 0 2px;
+}
+
+.correction-fixed {
+  background: rgba(0, 212, 170, 0.12);
+  border-bottom: 2px solid var(--color-teal);
+  border-radius: 2px;
+  padding: 0 2px;
+}
+
+/* ============================================================
+   LAYOUT UTILITIES
+   ============================================================ */
+.sidebar-width { width: 280px; min-width: 280px; }
+
+.page-transition {
+  animation: fade-in-up 0.3s ease both;
 }
